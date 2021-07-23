@@ -6,10 +6,10 @@ import { AppComponent } from "./app.component";
 import { HttpClientModule ,HTTP_INTERCEPTORS} from '@angular/common/http';
 import { NgxCaptchaModule } from "ngx-captcha";
 //providers
-import { AuthService } from "./auth.service";
-import { TokenInterceptorService } from "./token-interceptor.service";
-import { UserService } from "./user.service";
-import { AuthGuard } from "./auth.guard";
+import { AuthService } from "./services/auth.service";
+import { TokenInterceptorService } from "./services/token-interceptor.service";
+import { UserService } from "./services/user.service";
+import { AuthGuard } from "./guards/auth.guard";
 
 // layouts
 import { AdminComponent } from "./layouts/admin/admin.component";

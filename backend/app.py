@@ -19,7 +19,7 @@ bcrypt = Bcrypt(app)
 jwt = JWTManager(app)
 CORS(app) 
 app.config['MONGODB_SETTINGS'] = {
-    'host': 'mongodb+srv://admin:11110000@cluster0.o0u9q.mongodb.net/myFirstDatabase?retryWrites=true&w=majority'
+    'host': 'mongo_url_here'
 }
 
 initialize_db(app)

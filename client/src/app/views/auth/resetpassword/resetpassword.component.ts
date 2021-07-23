@@ -1,5 +1,5 @@
 import { Component, OnInit } from '@angular/core';
-import { AuthService } from 'src/app/auth.service';
+import { AuthService } from 'src/app/services/auth.service';
 import { ActivatedRoute } from '@angular/router';
 import { Router } from '@angular/router';
 @Component({
@@ -14,7 +14,7 @@ export class ResetpasswordComponent implements OnInit {
     _activatedRoute.queryParams.subscribe(
       params => {
         this.reset_token=params['token']
-        console.log('queryParams', this.reset_token)}
+      }
       
       
       );
@@ -24,12 +24,11 @@ export class ResetpasswordComponent implements OnInit {
   }
   resetPassword(){
     this.loginData.reset_token = this.reset_token
-    console.log(this.loginData)
     this._auth.resetPassword(this.loginData).subscribe(
       res=> {
         this._router.navigate(['/auth/login'])
       },
-      err=> console.log(err)
+      err=>{}
     )
   }
 }

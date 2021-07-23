@@ -1,5 +1,5 @@
 import { Component, OnInit } from "@angular/core";
-import { UserService } from "src/app/user.service";
+import { UserService } from "src/app/services/user.service";
 import { Router } from "@angular/router";
 import { ActivatedRoute } from "@angular/router";
 import Chart from "chart.js";
@@ -13,7 +13,6 @@ export class MapsComponent implements OnInit {
   constructor(private userService : UserService,private _router:Router,private _activatedRoute: ActivatedRoute) {
     
       this.id =this._activatedRoute.snapshot.paramMap.get('id')
-      console.log(this.id)
       this.getinfo(this.id)
   }
   ngOnInit(): void {}
@@ -121,7 +120,6 @@ export class MapsComponent implements OnInit {
   getinfo(id){
     this.userService.getMedicalInfo(id).subscribe(
       res=> {
-        console.log(res)
         if(res!==[]){
           this.medical = res[0]
         }
@@ -131,13 +129,11 @@ export class MapsComponent implements OnInit {
   }
 
   extract(img,id){
-    console.log(img)
-    console.log(id)
+    
     this.userService.extract(img,id).subscribe(
       res=> {
-        console.log(res)
       },
-      err=> console.log(err)
+      err=> {}
     )
   }
 

@@ -1,5 +1,5 @@
 import { Component, OnInit } from "@angular/core";
-import { AuthService } from "src/app/auth.service";
+import { AuthService } from "src/app/services/auth.service";
 import { Router } from "@angular/router";
 @Component({
   selector: "app-register",
@@ -18,18 +18,15 @@ export class RegisterComponent implements OnInit {
   ngOnInit(): void {}
 
   registerUser(){
-    console.log(this.registerUserData)
     this._auth.registerUser(this.registerUserData).subscribe(
       res=> {
-        console.log(res)
         this._router.navigate(['auth/login'])
       },
-      err=> console.log(err)
+      err=> {}
     )
   }
 
   handleSuccess($event){
-    console.log("sucessssss")
     this.isSubmitBtnDisabled = true
   }
 }

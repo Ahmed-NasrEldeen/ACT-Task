@@ -1,8 +1,8 @@
 import { HttpErrorResponse } from "@angular/common/http";
 import { Component, OnInit } from "@angular/core";
-import { UserService } from "src/app/user.service";
+import { UserService } from "src/app/services/user.service";
 import { Router } from "@angular/router";
-import { AuthService } from "src/app/auth.service";
+import { AuthService } from "src/app/services/auth.service";
 @Component({
   selector: "app-profile",
   templateUrl: "./profile.component.html",
@@ -32,7 +32,6 @@ export class ProfileComponent implements OnInit {
   _handleReaderLoaded(e) {
     let reader = e.target;
     this.imageSrc = reader.result;
-    console.log(this.imageSrc)
   }
   
  
