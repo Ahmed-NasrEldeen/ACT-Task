@@ -3,8 +3,8 @@ from database.models import MedicalInfo , User
 from flask_jwt_extended import jwt_required, get_jwt_identity
 from flask_restful import Resource
 from mongoengine.errors import FieldDoesNotExist, NotUniqueError, DoesNotExist, ValidationError, InvalidQueryError
-from resources.errors import SchemaValidationError,UnauthorizedError ,MovieAlreadyExistsError, InternalServerError, \
-UpdatingMovieError, DeletingMovieError, MovieNotExistsError
+from resources.errors import SchemaValidationError,UnauthorizedError ,MedicalAlreadyExistsError, InternalServerError, \
+UpdatingMedicalError, DeletingMedicalError, MedicalNotExistsError
 from flask import current_app
 import json
 
@@ -29,16 +29,16 @@ class UserApi(Resource):
             user_id = get_jwt_identity()
             body = request.get_json()
             user = User.objects.get(id=user_id)
-            movie =  MedicalInfo(**body, added_by=user)
-            movie.save()
-            user.update(push__MedicalInfo=movie)
+            medical =  MedicalInfo(**body, added_by=user)
+            medical.save()
+            user.update(push__MedicalInfo=medical)
             user.save()
-            id = movie.id
+            id = medical.id
             return {'id': str(id)}, 200
         except (FieldDoesNotExist, ValidationError):
             raise SchemaValidationError
         except NotUniqueError:
-            raise MovieAlreadyExistsError
+            raise MedicalAlreadyExistsError
         except Exception as e:
             raise e
 
@@ -61,6 +61,6 @@ class upload(Resource):
         except InvalidQueryError:
             raise SchemaValidationError
         except DoesNotExist:
-            raise UpdatingMovieError
+            raise UpdatingMedicalError
         except Exception:
             raise InternalServerError       

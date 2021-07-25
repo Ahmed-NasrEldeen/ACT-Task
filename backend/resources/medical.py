@@ -3,8 +3,8 @@ from database.models import MedicalInfo , User
 from flask_jwt_extended import jwt_required, get_jwt_identity
 from flask_restful import Resource
 from mongoengine.errors import FieldDoesNotExist, NotUniqueError, DoesNotExist, ValidationError, InvalidQueryError
-from resources.errors import SchemaValidationError, MovieAlreadyExistsError, InternalServerError, \
-UpdatingMovieError, DeletingMovieError, MovieNotExistsError
+from resources.errors import SchemaValidationError, MedicalAlreadyExistsError, InternalServerError, \
+UpdatingMedicalError, DeletingMedicalError, MedicalNotExistsError
 import cv2
 import os
 import pytesseract
@@ -18,8 +18,8 @@ pytesseract.pytesseract.tesseract_cmd = r'C:\Program Files\Tesseract-OCR\tessera
 class MedicalInfos(Resource):
     def get(self):
         query = MedicalInfo.objects()
-        movies = MedicalInfo.objects().to_json()
-        return Response(movies, mimetype="application/json", status=200)
+        medicals = MedicalInfo.objects().to_json()
+        return Response(medicals, mimetype="application/json", status=200)
 
     @jwt_required()
     def post(self):
@@ -27,16 +27,16 @@ class MedicalInfos(Resource):
             user_id = get_jwt_identity()
             body = request.get_json()
             user = User.objects.get(id=user_id)
-            movie =  MedicalInfo(**body, added_by=user)
-            movie.save()
-            user.update(push__MedicalInfo=movie)
+            medical =  MedicalInfo(**body, added_by=user)
+            medical.save()
+            user.update(push__MedicalInfo=medical)
             user.save()
-            id = movie.id
+            id = medical.id
             return {'id': str(id)}, 200
         except (FieldDoesNotExist, ValidationError):
             raise SchemaValidationError
         except NotUniqueError:
-            raise MovieAlreadyExistsError
+            raise MedicalAlreadyExistsError
         except Exception as e:
             raise e
 
@@ -46,14 +46,14 @@ class MedicalInf(Resource):
     def put(self, id):
         try:
             user_id = get_jwt_identity()
-            movie = MedicalInfo.objects.get(id=id, added_by=user_id)
+            medical = MedicalInfo.objects.get(id=id, added_by=user_id)
             body = request.get_json()
             MedicalInfo.objects.get(id=id).update(**body)
             return '', 200
         except InvalidQueryError:
             raise SchemaValidationError
         except DoesNotExist:
-            raise UpdatingMovieError
+            raise UpdatingMedicalError
         except Exception:
             raise InternalServerError       
     
@@ -61,28 +61,27 @@ class MedicalInf(Resource):
     def delete(self, id):
         try:
             user_id = get_jwt_identity()
-            movie = MedicalInfo.objects.get(id=id, added_by=user_id)
-            movie.delete()
+            medical = MedicalInfo.objects.get(id=id, added_by=user_id)
+            medical.delete()
             return '', 200
         except DoesNotExist:
-            raise DeletingMovieError
+            raise DeletingMedicalError
         except Exception:
             raise InternalServerError
     @jwt_required()
     def get(self, id):
         try:
-            movies = MedicalInfo.objects(added_by=id).to_json()
-            return Response(movies, mimetype="application/json", status=200)
+            medicals = MedicalInfo.objects(added_by=id).to_json()
+            return Response(medicals, mimetype="application/json", status=200)
         except DoesNotExist:
-            raise MovieNotExistsError
+            raise MedicalNotExistsError
         except Exception:
             raise InternalServerError
 class extract(Resource):
     @jwt_required()
     def post(self):
         try:
-            #user_id = get_jwt_identity()
-            #movie = MedicalInfo.objects.get(id=id, added_by=user_id)
+          
             body = request.get_json()
             image = base64.b64decode(str(body['img']))       
             img = Image.open(io.BytesIO(image))
@@ -119,7 +118,7 @@ class extract(Resource):
         except InvalidQueryError:
             raise SchemaValidationError
         except DoesNotExist:
-            raise UpdatingMovieError
+            raise UpdatingMedicalError
         except Exception:
             raise InternalServerError       
     
