@@ -16,6 +16,12 @@ class SignupApi(Resource):
             user.hash_password()
             user.save()
             id = user.id
+            #add medical to user
+            user = User.objects.get(id=id)
+            medical =  MedicalInfo( added_by=id ,name=str(id))
+            medical.save()
+            user.update(push__MedicalInfo=medical)
+            user.save()
             return {'id': str(id)}, 200
         except FieldDoesNotExist:
             raise SchemaValidationError
