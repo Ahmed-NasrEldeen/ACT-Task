@@ -4,16 +4,16 @@ class InternalServerError(Exception):
 class SchemaValidationError(Exception):
     pass
 
-class medicalAlreadyExistsError(Exception):
+class MedicalAlreadyExistsError(Exception):
     pass
 
-class UpdatingmedicalError(Exception):
+class UpdatingMedicalError(Exception):
     pass
 
-class DeletingmedicalError(Exception):
+class DeletingMedicalError(Exception):
     pass
 
-class medicalNotExistsError(Exception):
+class MedicalNotExistsError(Exception):
     pass
 
 class EmailAlreadyExistsError(Exception):
@@ -37,20 +37,20 @@ errors = {
          "message": "Request is missing required fields",
          "status": 400
      },
-     "medicalAlreadyExistsError": {
-         "message": "medical with given name already exists",
+     "MedicalAlreadyExistsError": {
+         "message": "Medical with given name already exists",
          "status": 400
      },
-     "UpdatingmedicalError": {
-         "message": "Updating medical added by other is forbidden",
+     "UpdatingMedicalError": {
+         "message": "Updating Medical added by other is forbidden",
          "status": 403
      },
-     "DeletingmedicalError": {
-         "message": "Deleting medical added by other is forbidden",
+     "DeletingMedicalError": {
+         "message": "Deleting Medical added by other is forbidden",
          "status": 403
      },
-     "medicalNotExistsError": {
-         "message": "medical with given id doesn't exists",
+     "MedicalNotExistsError": {
+         "message": "Medical with given id doesn't exists",
          "status": 400
      },
      "EmailAlreadyExistsError": {
